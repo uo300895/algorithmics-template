@@ -48,10 +48,10 @@ public class NullPath {
         backtracking(1, 0, visitedNodes);
         
         if (count <= maxTolerance && count >= minTolerance) {
-            //System.out.println("NullPath found with cost: " + count);
-            //printPath();
+//            System.out.println("NullPath found with cost: " + count);
+//            printPath();
         } else {
-            //System.out.println("No valid NullPath found.");
+//            System.out.println("No valid NullPath found.");
         }
     }
     
@@ -65,6 +65,11 @@ public class NullPath {
             return;
         }
         
+        int remainingLowerBound = calculateLowerBound(index, visitedNodes);
+        if (cost + remainingLowerBound > maxTolerance) {
+            return; 
+        }
+        
         for (int next = 1; next < n-1; next++) {
         	
             if (!visitedNodes[next]) {
@@ -75,11 +80,22 @@ public class NullPath {
             }
         }
     }
+
+	private static int calculateLowerBound(int index, boolean[] visitedNodes) {
+		int lowerBound = 0;
+	    
+	    for (int i = 0; i < n; i++) {
+	        if (!visitedNodes[i]) {
+	            lowerBound += Math.min(weights[index][i], weights[i][index]);
+	        }
+	    }
+	    return lowerBound;
+	}
     
-//    private static void printPath() {
-//        for (int i = 0; i < n; i++) {
-//            System.out.print(path[i] + (i < n - 1 ? " , " : "\n"));
-//        }
-//    }
+//   private static void printPath() {
+//       for (int i = 0; i < n; i++) {
+//           System.out.print(path[i] + (i < n - 1 ? " , " : "\n"));
+//       }
+//   }
 
 }
